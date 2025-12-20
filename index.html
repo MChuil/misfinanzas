@@ -12,18 +12,47 @@
     <h1>💰 Mini Finanzas</h1>
 
     <form id="form">
-        <input type="text" id="descripcion" placeholder="Descripción" required>
-        <input type="number" id="monto" placeholder="Monto" required>
-
+        <input type="text" id="descripcion" placeholder="Descripción" >
+        <input type="number" id="monto" placeholder="Monto" >
+        <select id="categoria">
+            <option value="" selected disabled>Seleccionar Categoria</option>
+            <option value="transporte">Transporte</option>
+            <option value="servicios">Servicios</option>
+            <option value="salud">Salud</option>
+            <option value="comida">Comida</option>
+            <option value="ocio">Ocio</option>
+            <option value="otros">Otros</option>
+        </select>    
         <select id="tipo">
+            <option value="" selected disabled>Seleccionar tipo</option>
             <option value="ingreso">Ingreso</option>
             <option value="gasto">Gasto</option>
         </select>
 
         <button type="submit">Agregar</button>
     </form>
+    <div>
+        <label for="">Filtro</label>
+        <select id="filtroCategoria">
+            <option value="" selected disabled>Seleccionar Categoria</option>
+            <option value="transporte">Transporte</option>
+            <option value="servicios">Servicios</option>
+            <option value="salud">Salud</option>
+            <option value="comida">Comida</option>
+            <option value="ocio">Ocio</option>
+            <option value="otros">Otros</option>
+        </select>
+        <button id="btnFiltrar">Filtrar</button>
+        <button id="btnLimpiar">Limpiar</button>
+        <span id="totalFiltro"></span>
+    </div>
 
     <h2>Balance: $<span id="balance">0</span></h2>
+
+    <div class="totalDetalles">
+        Total de ingresos: $<span id="totalIngresos" class="mas">0</span> |
+        Total de gastos: $<span id="totalGastos" class="menos">0</span>
+    </div>
 
     <ul id="lista"></ul>
 
