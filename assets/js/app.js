@@ -1,4 +1,5 @@
 let movimientos;
+let miGrafica = null;
 movimientos = localStorage.getItem('movimientos');  //leer los movimientos guardados en el localStorage
 // if(movimientos){
 //     movimientos = JSON.parse(movimientos); //convertir el string a un array de objetos
@@ -9,6 +10,7 @@ movimientos = (movimientos) ? JSON.parse(movimientos) : []; // ternario para ini
 
 document.addEventListener('DOMContentLoaded', function() { //Esperar a que cargue todo el html
     renderizar(); //Llamar a la función para mostrar los movimientos al cargar la página
+    generarGrafica(); //Llamar a la función para generar la gráfica
 });
 
 // Elementos del DOM (Documento Object Model)
@@ -27,6 +29,8 @@ const btnLimpiar = document.querySelector("#btnLimpiar");
 const totalIngresosSpan = document.querySelector("#totalIngresos");
 const totalGastosSpan = document.querySelector("#totalGastos");
 const totalFiltroSpan = document.querySelector("#totalFiltro");
+
+const ctx = document.getElementById('myChart');
 
 //Eventos
 form.addEventListener("submit", agregarMovimiento);
@@ -105,12 +109,17 @@ function renderizar(){
     });
 
     calcularBalance();
+    generarGrafica();
 
     totalFiltroSpan.innerHTML= ""; //Limpiar el total del filtro al renderizar toda la lista
     selectFiltro.value = ""; //Resetear el select del filtro
 }
 
 function eliminar(id){
+    const confirmar = confirm("¿Está seguro de que desea eliminar este movimiento?");
+    if(!confirmar){
+        return;
+    }
     //Filtrar el array para eliminar el movimiento con el id dado
     movimientos = movimientos.filter(mov => mov.id != id);
     guardar();
@@ -158,4 +167,39 @@ function filtrar(){
 
     totalFiltroSpan.innerHTML= `Total para "${categoriaFiltro}": $${totalFiltro.toFixed(2)}`;
 
+}
+
+function generarGrafica(){
+    console.log("Generando gráfica...");
+    const categorias = {};
+
+    //1. filtrar por gastos
+    const gastos = movimientos.filter(mov => mov.tipo == "gasto");
+
+    //2. agrupar por categoría y sumar los montos
+    gastos.forEach(mov =>{
+        //categorias[mov.categoria] = 
+        if(categorias[mov.categoria] === undefined){
+            //si la categoría no existe, la creamos en 0
+            categorias[mov.categoria] = 0;
+        }
+        categorias[mov.categoria] = categorias[mov.categoria] + mov.monto;
+    })
+    const labels = Object.keys(categorias);
+    const valores = Object.values(categorias); 
+
+    if(miGrafica){
+        miGrafica.destroy();
+    }
+
+    miGrafica = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Mis finanzas',
+                data: valores
+            }]
+        }
+    });
 }
