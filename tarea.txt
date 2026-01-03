@@ -1,1 +1,12 @@
 Mejorar toda la interfaz usando css puro
+
+
+Proceso de clonación github
+
+1. Ubicarse en la carpeta/escritorio en donde se va a guardar el proyecto
+2. Abrir la linea de comandos en la ruta donde se va a guardar
+3. git clone (url que nos comparten)
+4. Cumplir con la tarea
+5. git add . (agrega las cosas nuevas)
+6. git commit -m "mensaje de los cambios"
+7. git push origin main (subimos todo a la nube)
