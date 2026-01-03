@@ -1,0 +1,1 @@
+Mejorar toda la interfaz usando css puro
